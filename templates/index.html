@@ -1,0 +1,120 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} {% endblock %}</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js "></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!--<link rel="stylesheet" href="static/style.css"> -->
+
+</head>
+<style>
+  .home{
+    position: absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height: 100vh;
+    background-image:  url("../static/img/pexels-pixabay-315755.jpg");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    z-index: -1;
+    
+}
+.title{
+  text-align: center;
+}
+.picture{
+  width: 300px;
+  border-radius: 50%;
+  height: 200px;
+
+}
+
+</style>
+
+<body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <!-- Brand/logo -->
+        <a class="navbar-brand" href="{% url 'index'%}">
+          <img src="https://images.unsplash.com/photo-1603064752734-4c48eff53d05?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8YnVyZ2VyfGVufDB8fDB8fA%3D%3D&w=50&q=80">
+        </a>
+        
+        <!-- Links -->
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="#">HOME</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="menu.html">MENU</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">ABOUT US</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="cart.html">CART<span id="cart"></span></a>
+          </li>
+        </ul>
+      </nav>
+      <div>
+        {% block content %}  {% endblock %}
+      </div>
+        
+          <div class ="container-fluid">
+            <div class="row text-center">
+              <div class="col-md-8">
+                <h2 class="title">
+                  Our Pizzas
+                </h2>
+                <div class="row">
+                  {% for pizza in pizzas %}
+                  <div class="col-md-4 p-4">
+                    <img class="picture" src="{{pizza.pImage}}">
+                    <h4 class="pt-3">{{pizza.name}}</h4>
+                    <div class ="form-check-inline">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="pizaa">
+                        {{pizza.priceM}}
+                      </label>
+                    </div>
+                    <div class ="form-check-inline">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="pizaa">
+                        {{pizza.priceL}}
+                      </label>
+                    </div>
+                    <div>
+                      <form action="/#{{pizza.id}}" method="POST" class="btn-block">
+                        {% csrf_token %}
+                        <input hidden type="text" name='pizza' value='{{pizza.id}}'>
+                        <input type="submit" class="float-right btn btn-light  form-control"
+                          value="Add To Cart">
+                      </form>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="col-md-4">
+
+              </div>
+                </div>
+          </div>
+      
+</body>
+
+</html>
